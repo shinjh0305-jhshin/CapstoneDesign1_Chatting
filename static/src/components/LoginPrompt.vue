@@ -37,7 +37,7 @@ export default {
 
 <script setup>
     import useAxios from '../modules/axios'
-    import { useUserInfoStore } from '/@stores/userinfo'
+    //import { useUserInfoStore } from '/@stores/userinfo'
     import { reactive } from 'vue'
 
     const { axiosGet, axiosPost } = useAxios();
