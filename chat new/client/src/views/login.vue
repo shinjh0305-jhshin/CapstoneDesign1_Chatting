@@ -1,263 +1,289 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
-    <div class="main" :style="{backgroundImage:bg2}">
-            <div class="brand">
-                 <img src="@/assets/emblem.png">
-                 <p>Circuit</p>
-            </div>
-            <div class="form-container">
-                 <div class="welcome">
-                     <h3>Welcome back,</h3>
-                     <h4>Sign in to continue</h4>
-                 </div>
-                 <div class="form" :style="{backgroundImage:bg1}">
-                     <div class="input-field" :class="{'focus':focusUser}">
-                         <i class="fa fa-envelope"></i>
-                         <input type="text" placeholder="Username" @keyup.enter="login" v-model="user.username" @focus="focus('user')">
-                     </div>
-                     <div class="input-field" :class="{'focus':focusPassword}">
-                         <i class="fa fa-lock"></i>
-                         <input :type="password" placeholder="Password" @keyup.enter="login" v-model="user.password" @focus="focus('password')">
-                         <i class="fa fa-eye eye" :class="{'fa-eye-slash':eye}"  @click="togglePasswordField"></i>
-                     </div>
-                     <p class="error">{{error}}</p>
-                     <div class="sign-in">
-                         <p class="option">Dont have an account? <router-link to="/register">Register</router-link></p>
-                         <button @click="login" :disabled="disabled"><span v-if="!disabled">Sign In</span><img src="//s.svgbox.net/loaders.svg?fill=ffffff#oval" v-if="disabled"></button>
-                     </div>
-                 </div>
-           </div>
+  <div class="main" :style="{ backgroundImage: bg2 }">
+    <div class="brand">
+      <img src="@/assets/emblem.png" />
+      <p>Circuit</p>
     </div>
- </template>
- 
- <script>
- import router from '../router';
- import bg1 from '@/assets/guide-back.png';
- import bg2 from '@/assets/offer-bg.png'
- /* eslint-disable */
- export default {
-     data(){
-        return{
-            user:{
-                username:'',
-                password:''
-            },
-            error:'',
-            password:'password',
-            eye:false,
-            disabled:false,
-            focusUser:false,
-            focusPassword:false,
-            bg1:`url(${bg1})`,
-            bg2:`url(${bg2})`,
-        }
-     },
-     methods:{
-         login(){
-             this.disabled=true;
-             const self=this;
-             this.$http.post('https://whispering-everglades-42925.herokuapp.com/auth/login',self.user).then((response)=>{
-                     this.disabled=false;
-                   if(!response.data.loggedIn){ 
-                      self.error=response.data.message;
-                   }else{ 
-                      router.push('/channels/5fc52db79aa9fb091c81c332');
-                   }
-             })
-         },
-         togglePasswordField(){
-             this.eye=!this.eye;
-             if(this.password==='password'){
-                 this.password='text'
-             }else{
-                 this.password='password'
-             }
-         },
-          focus(element){
-             if(element==='user'){
-                  this.focusUser=true;
-                  this.focusPassword=false;
-             }else{
-                  this.focusUser=false;
-                  this.focusPassword=true;
-             }
-         }
-     }
- }
- </script>
- 
- <style scoped>
-     div.main{
-         background: var(--background);
-         padding: 2rem;
-         color: var(--text);
-         background-size: 30% 60%;
-         background-repeat: no-repeat;
-         background-position:-0% -45%;
-     }
-     div.brand{
-          display: flex;
-          align-items: center;
-          color: var(--button);
-          margin-bottom: 3rem;
-     }
-     div.brand img{
-          width: 30px;
-          height: 30px;
-     }
-     div.brand p{
-         margin: 0;
-         margin-left: 0.4rem;
-         font-weight: 700;
-         font-size: 1.5rem;
-     }
-     div.welcome h3{
-          font-size: 2.5rem;
-          margin-bottom: 0.3rem;
-     }
-     div.welcome h4{
-          font-size: 2rem;
-          margin: 0;
-          filter: brightness(2.5);
-    }
-     div.form-container{
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-    }
-    div.form{  
-     padding: 2rem;
-     border-radius: 0.35rem;
-     border: 1.7px solid var(--stroke);
-   }
-   div.input-field{
-     border: 1.7px solid var(--stroke);
-     border-radius: 0.4rem;
-     width: 100%;
-     height: 55px;
-     display: flex;
-     align-items: center;
-     margin-bottom: 2rem;
- }
- div.input-field.focus{
-      border-color: var(--button);
- }
- div.input-field input{
-     width: 90%;
-     height: 100%;
-     outline: none;
-     border: none;
-     background: transparent;
- }
- div.input-field i{
-     margin: 0rem 1rem;
-     color: var(--button);
- }
- div.sign-in{
-     display: flex;
-     justify-content: space-between;
-     align-items: center;
-     margin-bottom: 35px;
- }
- div.sign-in button{
-     color: var(--button-text);
-     background: var(--button);
-     border: none;
-     outline: none;
-     width: 100px;
-     padding: 0.7rem;
-     border-radius: 0.35rem;
-     cursor: pointer;
- }
- div.sign-in button img{
-     width: 16px;
-     height: 16px;
- }
- p.option{
-     font-size: 0.8rem;
-     text-align: center;
- }
- div.social-icons{
-     display: flex;
-     width: 100%;
-     justify-content: space-evenly;
-     margin-top:1rem;
- }
- div.social-icons i{
-     border: 1.2px solid var(--stroke);
-     border-radius: 100%;
-     padding: 0.5rem;
-     cursor: pointer;
- }
- div.input-field i.eye{
-     cursor: pointer;
- }
- p.error{
-     color: var(--error);
-     font-size: 0.7rem;
-     text-align: center;
- }
- a{
-     text-decoration: none;
-     color: var(--button);
- }
- 
- /* Extra small devices (phones, 600px and down) */
- @media only screen and (max-width: 720px) {
-     div.main{
-         padding: 1rem;
-         background-size: 57% 53%;
-         background-repeat: no-repeat;
-         background-position:-0% -45%;
-     }
-       div.form{
-          width: 100%;
-          padding: 0.8rem;
-       } 
-       div.sign-in button{
-           width: 80px;
-       }
-       div.welcome h3{
-          font-size: 2rem;
+    <div class="form-container">
+      <div class="welcome">
+        <h3>Welcome back,</h3>
+        <h4>Sign in to continue</h4>
+      </div>
+      <div class="form" :style="{ backgroundImage: bg1 }">
+        <div class="input-field" :class="{ focus: focusUser }">
+          <i class="fa fa-envelope"></i>
+          <input
+            type="text"
+            placeholder="Username"
+            @keyup.enter="login"
+            v-model="user.username"
+            @focus="focus('user')"
+          />
+        </div>
+        <div class="input-field" :class="{ focus: focusPassword }">
+          <i class="fa fa-lock"></i>
+          <input
+            :type="password"
+            placeholder="Password"
+            @keyup.enter="login"
+            v-model="user.password"
+            @focus="focus('password')"
+          />
+          <i
+            class="fa fa-eye eye"
+            :class="{ 'fa-eye-slash': eye }"
+            @click="togglePasswordField"
+          ></i>
+        </div>
+        <p class="error">{{ error }}</p>
+        <div class="sign-in">
+          <p class="option">
+            Dont have an account?
+            <router-link to="/register">Register</router-link>
+          </p>
+          <button @click="login" :disabled="disabled">
+            <span v-if="!disabled">Sign In</span
+            ><img
+              src="//s.svgbox.net/loaders.svg?fill=ffffff#oval"
+              v-if="disabled"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+//import router from "../router";
+import bg1 from "@/assets/guide-back.png";
+import bg2 from "@/assets/offer-bg.png";
+/* eslint-disable */
+export default {
+  data() {
+    return {
+      user: {
+        username: "",
+        password: "",
+      },
+      error: "",
+      password: "password",
+      eye: false,
+      disabled: false,
+      focusUser: false,
+      focusPassword: false,
+      bg1: `url(${bg1})`,
+      bg2: `url(${bg2})`,
+    };
+  },
+  methods: {
+    login() {
+      this.disabled = true;
+      const self = this;
+      this.$http
+        .post("http://localhost:9876/api/auth/login", self.user)
+        .then((response) => {
+          this.disabled = false;
+          if (!response.data.loggedIn) {
+            self.error = response.data.message;
+          }
+        });
+    },
+    togglePasswordField() {
+      this.eye = !this.eye;
+      if (this.password === "password") {
+        this.password = "text";
+      } else {
+        this.password = "password";
       }
-     div.welcome h4{
-          font-size: 1.5rem;
-          margin-bottom: 3rem;
-     }
-     div.brand{
-         margin-bottom: 1.5rem;
-     }
- }
- 
- /* Small devices (portrait tablets and large phones, 600px and up) */
- @media only screen and (min-width: 720px) {
-        div.main{
-         padding: 2rem;
-     }
-       div.form{
-          width: 100%;
-       } 
-       div.welcome h3{
-          font-size: 2rem;
+    },
+    focus(element) {
+      if (element === "user") {
+        this.focusUser = true;
+        this.focusPassword = false;
+      } else {
+        this.focusUser = false;
+        this.focusPassword = true;
       }
-     div.welcome h4{
-          font-size: 1.5rem;
-          margin-bottom: 3rem;
-     }
-     div.brand{
-         margin-bottom: 1.5rem;
-     }
- }
- 
- /* Medium devices (landscape tablets, 768px and up) */
- @media only screen and (min-width: 1000px) {
-        div.form{
-           width: 50%;
-        }
-          div.welcome h3{
-          font-size: 2.5rem;
-      }
-     div.welcome h4{
-          font-size: 2rem;
-     }
- }
- </style>
+    },
+  },
+};
+</script>
+
+<style scoped>
+div.main {
+  background: var(--background);
+  padding: 2rem;
+  color: var(--text);
+  background-size: 30% 60%;
+  background-repeat: no-repeat;
+  background-position: -0% -45%;
+}
+div.brand {
+  display: flex;
+  align-items: center;
+  color: var(--button);
+  margin-bottom: 3rem;
+}
+div.brand img {
+  width: 30px;
+  height: 30px;
+}
+div.brand p {
+  margin: 0;
+  margin-left: 0.4rem;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+div.welcome h3 {
+  font-size: 2.5rem;
+  margin-bottom: 0.3rem;
+}
+div.welcome h4 {
+  font-size: 2rem;
+  margin: 0;
+  filter: brightness(2.5);
+}
+div.form-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+div.form {
+  padding: 2rem;
+  border-radius: 0.35rem;
+  border: 1.7px solid var(--stroke);
+}
+div.input-field {
+  border: 1.7px solid var(--stroke);
+  border-radius: 0.4rem;
+  width: 100%;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+div.input-field.focus {
+  border-color: var(--button);
+}
+div.input-field input {
+  width: 90%;
+  height: 100%;
+  outline: none;
+  border: none;
+  background: transparent;
+}
+div.input-field i {
+  margin: 0rem 1rem;
+  color: var(--button);
+}
+div.sign-in {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 35px;
+}
+div.sign-in button {
+  color: var(--button-text);
+  background: var(--button);
+  border: none;
+  outline: none;
+  width: 100px;
+  padding: 0.7rem;
+  border-radius: 0.35rem;
+  cursor: pointer;
+}
+div.sign-in button img {
+  width: 16px;
+  height: 16px;
+}
+p.option {
+  font-size: 0.8rem;
+  text-align: center;
+}
+div.social-icons {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+  margin-top: 1rem;
+}
+div.social-icons i {
+  border: 1.2px solid var(--stroke);
+  border-radius: 100%;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+div.input-field i.eye {
+  cursor: pointer;
+}
+p.error {
+  color: var(--error);
+  font-size: 0.7rem;
+  text-align: center;
+}
+a {
+  text-decoration: none;
+  color: var(--button);
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 720px) {
+  div.main {
+    padding: 1rem;
+    background-size: 57% 53%;
+    background-repeat: no-repeat;
+    background-position: -0% -45%;
+  }
+  div.form {
+    width: 100%;
+    padding: 0.8rem;
+  }
+  div.sign-in button {
+    width: 80px;
+  }
+  div.welcome h3 {
+    font-size: 2rem;
+  }
+  div.welcome h4 {
+    font-size: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  div.brand {
+    margin-bottom: 1.5rem;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 720px) {
+  div.main {
+    padding: 2rem;
+  }
+  div.form {
+    width: 100%;
+  }
+  div.welcome h3 {
+    font-size: 2rem;
+  }
+  div.welcome h4 {
+    font-size: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  div.brand {
+    margin-bottom: 1.5rem;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 1000px) {
+  div.form {
+    width: 50%;
+  }
+  div.welcome h3 {
+    font-size: 2.5rem;
+  }
+  div.welcome h4 {
+    font-size: 2rem;
+  }
+}
+</style>

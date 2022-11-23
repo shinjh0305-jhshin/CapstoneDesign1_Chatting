@@ -1,15 +1,8 @@
-DROP DATABASE IF EXISTS chatUser;
-CREATE DATABASE chatUser;
-CREATE USER IF NOT EXISTS 'gongu'@'%' IDENTIFIED BY 'asdf1234';
-GRANT ALL PRIVILEGES ON chatUser.* TO 'gongu'@'%' WITH GRANT OPTION;
-FLUSH PRIVILEGES;
-
-USE chatUser;
-
+/* spring 쪽 dummy user */
 CREATE TABLE User (
-	nickname		VARCHAR(20) 	NOT NULL	PRIMARY KEY,
-    password		VARCHAR(20)		NOT NULL,
-    email       	VARCHAR(20)		NOT NULL
+	nickname		  VARCHAR(20) 	    NOT NULL	PRIMARY KEY,
+    password		  VARCHAR(20)		NOT NULL,
+    email       	  VARCHAR(20)		NOT NULL
 );
 
 CREATE TABLE Room (
@@ -41,9 +34,3 @@ CREATE TABLE Member (
     FOREIGN KEY(roomId) references Room(roomId),
     FOREIGN KEY(nickname) references User(nickname) on update cascade
 );
-
-INSERT INTO User VALUES('admin', 'asdf1234', 'admin@gmail.com');
-INSERT INTO User VALUES('john', 'asdf1234', 'john@gmail.com');
-INSERT INTO User VALUES('jake', 'asdf1234', 'jake@gmail.com');
-INSERT INTO User VALUES('shin', 'asdf1234', 'shin@gmail.com');
-INSERT INTO User VALUES('park', 'asdf1234', 'park@gmail.com');

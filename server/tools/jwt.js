@@ -1,7 +1,7 @@
 const { promisify } = require("util");
 const jwt = require("jsonwebtoken");
 const redisClient = require("./cache");
-const db = require("../tools/authdb");
+//const db = require("../tools/authdb");
 
 const jwtSecret = process.env.JWT_SECRET;
 
@@ -14,7 +14,7 @@ const client = {
       nick: user.NICK,
     };
 
-    return jwt.sign(payload, jwtSecret, {
+    return jwt.sign(payload, process.env.JWT_SECRET, {
       algorithm: "HS256",
       expiresIn: "1h",
     });
@@ -39,7 +39,7 @@ const client = {
   },
   refresh: () => {
     //refresh token 발급
-    return jwt.sign({}, jwtSecret, {
+    return jwt.sign({}, process.env.JWT_SECRET, {
       algorithm: "HS256",
       expiresIn: "14d",
     });
